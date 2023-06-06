@@ -1,2 +1,2 @@
 # Proyecto_Kodland1
-En este juego, el jugador controlará una nave espacial y deberá esquivar asteroides que se mueven por la pantalla. También se incluye un puntaje para rastrear la puntuación del jugador
+En este juego, el jugador puede mover la nave espacial hacia la izquierda y hacia la derecha usando las teclas de flecha correspondientes. Los asteroides caen desde la parte superior de la pantalla y el jugador debe esquivarlos. Si el jugador colisiona con un asteroide, se resetea la posición del asteroide y se disminuye el puntaje en 10 puntos. El puntaje se muestra en la esquina superior izquierda de la pantalla y aumenta constantemente.
