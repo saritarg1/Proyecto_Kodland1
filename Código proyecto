@@ -1,0 +1,95 @@
+import pygame
+from pygame.locals import *
+import random
+
+# Inicialización de Pygame
+pygame.init()
+
+# Configuración de la pantalla del juego
+screen_width = 800
+screen_height = 600
+screen = pygame.display.set_mode((screen_width, screen_height))
+pygame.display.set_caption("Juego de Nave Espacial")
+
+# Colores
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+
+# Jugador
+player_width = 50
+player_height = 50
+player_x = (screen_width - player_width) // 2
+player_y = screen_height - player_height - 10
+player_speed = 5
+
+def draw_player():
+    pygame.draw.rect(screen, WHITE, (player_x, player_y, player_width, player_height))
+
+# Asteroide
+asteroid_width = 50
+asteroid_height = 50
+asteroid_x = random.randint(0, screen_width - asteroid_width)
+asteroid_y = -50
+asteroid_speed = 3
+
+def draw_asteroid():
+    pygame.draw.rect(screen, WHITE, (asteroid_x, asteroid_y, asteroid_width, asteroid_height))
+
+def move_asteroid():
+    global asteroid_x, asteroid_y
+    asteroid_y += asteroid_speed
+    if asteroid_y > screen_height:
+        reset_asteroid()
+
+def reset_asteroid():
+    global asteroid_x, asteroid_y
+    asteroid_x = random.randint(0, screen_width - asteroid_width)
+    asteroid_y = -50
+
+# Puntaje
+score = 0
+font = pygame.font.Font(None, 36)
+
+def display_score():
+    score_text = font.render("Puntaje: " + str(score), True, WHITE)
+    screen.blit(score_text, (10, 10))
+
+# Bucle principal del juego
+running = True
+
+clock = pygame.time.Clock()
+
+while running:
+    # Manejo de eventos
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            running = False
+
+    # Movimiento del jugador
+    keys = pygame.key.get_pressed()
+    if keys[K_LEFT]:
+        player_x -= player_speed
+    if keys[K_RIGHT]:
+        player_x += player_speed
+
+    # Actualización de la pantalla
+    screen.fill(BLACK)
+
+    draw_player()
+    move_asteroid()
+    draw_asteroid()
+    display_score()
+
+    # Detección de colisiones
+    if player_x < asteroid_x + asteroid_width and player_x + player_width > asteroid_x and player_y < asteroid_y + asteroid_height and player_y + player_height > asteroid_y:
+        reset_asteroid()
+        score -= 10
+
+    # Actualización del puntaje
+    score += 1
+
+    pygame.display.update()
+    clock.tick(60)
+
+# Cierre de Pygame
+pygame.quit()
